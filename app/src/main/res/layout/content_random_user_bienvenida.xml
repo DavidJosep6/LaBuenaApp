@@ -8,4 +8,5 @@
     tools:context="com.randomusers.davidjose.randomusers.RandomUserBienvenida"
     tools:showIn="@layout/activity_random_user_bienvenida">
 
+
 </android.support.constraint.ConstraintLayout>

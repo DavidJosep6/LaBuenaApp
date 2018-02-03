@@ -30,7 +30,7 @@ public class Inicio extends AppCompatActivity {
     Button sumar, restar;
     public static TextView mostrar;
     String data  = "";
-
+    private static final Intent abrirFormulario = new Intent("com.randomusers.davidjose.randomusers.FORMULARIO");
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,19 +41,16 @@ public class Inicio extends AppCompatActivity {
         sumar = (Button) findViewById(R.id.Sumar);
         restar = (Button) findViewById(R.id.Restar);
         mostrar = (TextView) findViewById(R.id.tvMostrar);
+
         sumar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                fetchData process = new fetchData();
-                process.execute();
+                startActivity(abrirFormulario);
                 /*Para generar una actividad con una url
                 Uri uri = Uri.parse("https://randomuser.me/api/");
                 Intent intent = new Intent(Intent.ACTION_VIEW, uri);
                 startActivity(intent);
                 */
-                Log.i(TAG,"Nueva pagina web");
-                contador += 1;
-                mostrar.setText("Su total es " + contador);
             }
         });
 

@@ -19,16 +19,29 @@ import java.net.URL;
  * Created by DavidJose on 03/02/2018.
  */
 
-public class fetchData extends AsyncTask<Void, Void, Void> {
+public class fetchData extends AsyncTask<String, Void, Void>{
     private static final String TAG = "fetchData.java";
     String data = "";
     String dataParsed = "";
     String singleParsed = "";
+    String nacionalidad, sexo, numeroTotal, fechaRegistro;
 
     @Override
-    protected Void doInBackground(Void... voids) {
+    protected Void doInBackground(String... params) {
         try {
-            URL url = new URL("https://randomuser.me/api/?results=2");
+            //Recuperamos los datos introducidos por el usuario
+            String nacionalidad = params[0];
+            String sexo = params[1];
+            String numeroTotal = params[2];
+            String fechaRegistro = params[3];
+            Log.i(TAG, "nacionalidad" + nacionalidad);
+            Log.i(TAG, "sexo" + sexo);
+            Log.i(TAG, "numeroTotal" + numeroTotal);
+            Log.i(TAG, "fechaRegistro" + fechaRegistro);
+
+            String inicioURL = "https://randomuser.me/api/";
+            URL url = new URL(inicioURL + "?nat=" + nacionalidad + "&gender=" + sexo + "&results=" + numeroTotal + "&registered" + fechaRegistro);
+            Log.i(TAG, "La URL construida es: " + url.toString());
             HttpURLConnection httpURLConnection = (HttpURLConnection) url.openConnection();
             InputStream inputStream = httpURLConnection.getInputStream();
             BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(inputStream));
