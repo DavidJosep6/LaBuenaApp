@@ -6,6 +6,7 @@ package com.randomusers.davidjose.randomusers;
 
 import android.content.ContentValues;
 import android.content.Context;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
@@ -36,21 +37,49 @@ public class MainActivity {
         return id;
     }
 
+    public String getData() {
+        Log.i(TAG, "getData() - INICIO");
+        SQLiteDatabase db = myhelper.getWritableDatabase();
+        String[] columns = {myhelper.EMAIL, myhelper.GENDER, myhelper.TITLE, myhelper.FIRST, myhelper.LAST, myhelper.STREET, myhelper.CITY, myhelper.STATE, myhelper.POSTCODE, myhelper.REGISTERED, myhelper.PICTURE,};
+        Log.i(TAG, "getData() - cursor");
+        Cursor cursor = db.query(myhelper.TABLE_NAME, columns, null, null, null, null, null);
+        StringBuffer buffer = new StringBuffer();
+        Log.i(TAG, "getData() - while");
+        while (cursor.moveToNext()) {
+            String email = cursor.getString(cursor.getColumnIndex(myhelper.EMAIL));
+            String gender = cursor.getString(cursor.getColumnIndex(myhelper.GENDER));
+            String title = cursor.getString(cursor.getColumnIndex(myhelper.TITLE));
+            String first = cursor.getString(cursor.getColumnIndex(myhelper.FIRST));
+            String last = cursor.getString(cursor.getColumnIndex(myhelper.LAST));
+            String street = cursor.getString(cursor.getColumnIndex(myhelper.STREET));
+            String city = cursor.getString(cursor.getColumnIndex(myhelper.CITY));
+            String state = cursor.getString(cursor.getColumnIndex(myhelper.STATE));
+            String postcode = cursor.getString(cursor.getColumnIndex(myhelper.POSTCODE));
+            String registered = cursor.getString(cursor.getColumnIndex(myhelper.REGISTERED));
+            String picture = cursor.getString(cursor.getColumnIndex(myhelper.PICTURE));
+            buffer.append(email + "   " + gender + "   " + title + "  " + first + "  " + last + "  " + street + "  " + city + "  " + state + "  " + postcode + "  " + registered + "  " + picture + "\n");
+            Log.i(TAG,  email + "   " + gender + "   " + title + "  " + first + "  " + last + "  " + street + "  " + city + "  " + state + "  " + postcode + "  " + registered + "  " + picture + "\n");
+
+        }
+        Log.i(TAG, "getData() - FIN");
+        return buffer.toString();
+    }
+
     static class MainActivityHelper extends SQLiteOpenHelper {
         private static final String DATABASE_NAME = "myDatabase";    // Database Name
         private static final String TABLE_NAME = "myTable";   // Table Name
         private static final int DATABASE_Version = 1;    // Database Version
-        private static final String EMAIL = "EMAIL";     // Column I (Primary Key)
-        private static final String GENDER = "GENDER";    //Column II
-        private static final String TITLE = "TITLE";    // Column III
-        private static final String FIRST = "FIRST";    // Column III
-        private static final String LAST = "LAST";    // Column III
-        private static final String STREET = "STREET";    // Column III
-        private static final String CITY = "CITY";    // Column III
-        private static final String STATE = "STATE";    // Column III
-        private static final String POSTCODE = "POSTCODE";    // Column III
-        private static final String REGISTERED = "REGISTERED";    // Column III
-        private static final String PICTURE = "PICTURE";    // Column III
+        private static final String EMAIL = "EMAIL";     // Column 1 (Primary Key)
+        private static final String GENDER = "GENDER";    //Column 2
+        private static final String TITLE = "TITLE";    // Column 3
+        private static final String FIRST = "FIRST";    // Column 4
+        private static final String LAST = "LAST";    // Column 5
+        private static final String STREET = "STREET";    // Column 6
+        private static final String CITY = "CITY";    // Column 7
+        private static final String STATE = "STATE";    // Column 8
+        private static final String POSTCODE = "POSTCODE";    // Column 9
+        private static final String REGISTERED = "REGISTERED";    // Column 10
+        private static final String PICTURE = "PICTURE";    // Column 11
 
         private static final String CREATE_TABLE = "CREATE TABLE " + TABLE_NAME +
                 " (" + EMAIL + " VARCHAR(255) PRIMARY KEY," +

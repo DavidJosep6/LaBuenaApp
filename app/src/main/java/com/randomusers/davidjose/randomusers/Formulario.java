@@ -1,6 +1,7 @@
 package com.randomusers.davidjose.randomusers;
 
 import android.os.Bundle;
+import android.os.Message;
 import android.os.StrictMode;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -8,6 +9,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -23,13 +25,13 @@ import java.net.URL;
 
 public class Formulario extends AppCompatActivity {
     private static final String TAG = "Formulario.java";
-    Button enviarFormulario;
+    Button enviarFormulario, verFormulario;
     EditText nacionalidad, sexo, numInsertar, fechaRegistro;
     URL url = null;
     String data = "";
     String dataParsed = "";
     String singleParsed = "";
-    String BDemail,BDgender, BDtitle, BDfirst, BDlast, BDstreet, BDcity, BDstate, BDpostcode, BDregistered, BDpicture;
+    String BDemail, BDgender, BDtitle, BDfirst, BDlast, BDstreet, BDcity, BDstate, BDpostcode, BDregistered, BDpicture;
     MainActivity helper;
 
     @Override
@@ -38,6 +40,7 @@ public class Formulario extends AppCompatActivity {
         setContentView(R.layout.activity_formulario);
 
         enviarFormulario = (Button) findViewById(R.id.enviarForm);
+        verFormulario = (Button) findViewById(R.id.verForm);
         nacionalidad = (EditText) findViewById(R.id.Nacionalidad);
         sexo = (EditText) findViewById(R.id.Sexo);
         numInsertar = (EditText) findViewById(R.id.NumeroUsuarios);
@@ -114,17 +117,26 @@ public class Formulario extends AppCompatActivity {
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
-
                 Log.i(TAG, "La URL construida es: " + url.toString());
             }
         });
 
-
+        verFormulario.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String data = helper.getData();
+                Toast.makeText(Formulario.this, data, Toast.LENGTH_LONG);
+            }
+        });
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-
     }
-    /*
+/*
+    public void viewdata(View view) {
+String data = helper.getData();
+                Toast.makeText(Formulario.this, data, Toast.LENGTH_LONG);
+    }
+
     public void addUser(View view)
             long id = helper.insertData(BDemail, BDgender, BDtitle, BDfirst, BDlast, BDstreet, BDcity, BDstate, BDpostcode, BDregistered, BDpicture);
     }
