@@ -19,9 +19,11 @@ public class MainActivity {
         myhelper = new MainActivityHelper(context);
     }
 
-    public long insertData(String email, String gender, String title, String first, String last, String street, String city, String state, String postcode, String registered, String picture) {
+    public long insertData(String username, String password, String email, String gender, String title, String first, String last, String street, String city, String state, String postcode, String registered, String picture) {
         SQLiteDatabase dbb = myhelper.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
+        contentValues.put(MainActivityHelper.USERNAME, username);
+        contentValues.put(MainActivityHelper.PASSWORD, password);
         contentValues.put(MainActivityHelper.EMAIL, email);
         contentValues.put(MainActivityHelper.GENDER, gender);
         contentValues.put(MainActivityHelper.TITLE, title);
@@ -40,12 +42,14 @@ public class MainActivity {
     public String getData() {
         Log.i(TAG, "getData() - INICIO");
         SQLiteDatabase db = myhelper.getWritableDatabase();
-        String[] columns = {myhelper.EMAIL, myhelper.GENDER, myhelper.TITLE, myhelper.FIRST, myhelper.LAST, myhelper.STREET, myhelper.CITY, myhelper.STATE, myhelper.POSTCODE, myhelper.REGISTERED, myhelper.PICTURE,};
+        String[] columns = {myhelper.USERNAME,myhelper.PASSWORD,myhelper.EMAIL, myhelper.GENDER, myhelper.TITLE, myhelper.FIRST, myhelper.LAST, myhelper.STREET, myhelper.CITY, myhelper.STATE, myhelper.POSTCODE, myhelper.REGISTERED, myhelper.PICTURE,};
         Log.i(TAG, "getData() - cursor");
         Cursor cursor = db.query(myhelper.TABLE_NAME, columns, null, null, null, null, null);
         StringBuffer buffer = new StringBuffer();
         Log.i(TAG, "getData() - while");
         while (cursor.moveToNext()) {
+            String username = cursor.getString(cursor.getColumnIndex(myhelper.USERNAME));
+            String password = cursor.getString(cursor.getColumnIndex(myhelper.PASSWORD));
             String email = cursor.getString(cursor.getColumnIndex(myhelper.EMAIL));
             String gender = cursor.getString(cursor.getColumnIndex(myhelper.GENDER));
             String title = cursor.getString(cursor.getColumnIndex(myhelper.TITLE));
@@ -57,8 +61,8 @@ public class MainActivity {
             String postcode = cursor.getString(cursor.getColumnIndex(myhelper.POSTCODE));
             String registered = cursor.getString(cursor.getColumnIndex(myhelper.REGISTERED));
             String picture = cursor.getString(cursor.getColumnIndex(myhelper.PICTURE));
-            buffer.append(email + "   " + gender + "   " + title + "  " + first + "  " + last + "  " + street + "  " + city + "  " + state + "  " + postcode + "  " + registered + "  " + picture + "\n");
-            Log.i(TAG,  email + "   " + gender + "   " + title + "  " + first + "  " + last + "  " + street + "  " + city + "  " + state + "  " + postcode + "  " + registered + "  " + picture + "\n");
+            buffer.append(username + ";" + password + ";" + email + ";" + gender + ";" + title + ";" + first + " " + last + ";" + street + " " + city + " " + state + "" + postcode + ";" + registered + ";" + picture + "\n");
+            Log.i(TAG,  username + ";" + password + ";" + email + ";" + gender + ";" + title + ";" + first + " " + last + ";" + street + " " + city + " " + state + "" + postcode + ";" + registered + ";" + picture + "\n");
 
         }
         Log.i(TAG, "getData() - FIN");
@@ -66,10 +70,12 @@ public class MainActivity {
     }
 
     static class MainActivityHelper extends SQLiteOpenHelper {
-        private static final String DATABASE_NAME = "myDatabase";    // Database Name
-        private static final String TABLE_NAME = "myTable";   // Table Name
+        private static final String DATABASE_NAME = "RandomDB";    // Database Name
+        private static final String TABLE_NAME = "RandomTable";   // Table Name
         private static final int DATABASE_Version = 1;    // Database Version
-        private static final String EMAIL = "EMAIL";     // Column 1 (Primary Key)
+        private static final String USERNAME = "USERNAME";     // Column 1 (Primary Key)
+        private static final String PASSWORD = "PASSWORD";     // Column 1
+        private static final String EMAIL = "EMAIL";     // Column 1
         private static final String GENDER = "GENDER";    //Column 2
         private static final String TITLE = "TITLE";    // Column 3
         private static final String FIRST = "FIRST";    // Column 4
@@ -81,8 +87,11 @@ public class MainActivity {
         private static final String REGISTERED = "REGISTERED";    // Column 10
         private static final String PICTURE = "PICTURE";    // Column 11
 
+
         private static final String CREATE_TABLE = "CREATE TABLE " + TABLE_NAME +
-                " (" + EMAIL + " VARCHAR(255) PRIMARY KEY," +
+                " (" + USERNAME + " VARCHAR(255) PRIMARY KEY," +
+                PASSWORD + " VARCHAR(255) ," +
+                EMAIL + " VARCHAR(255) ," +
                 GENDER + " VARCHAR(255) ," +
                 TITLE + " VARCHAR(225) , " +
                 FIRST + " VARCHAR(225) , " +
@@ -117,7 +126,7 @@ public class MainActivity {
         public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
             try {
                 Log.i(TAG, "onUpgrade - INICIO");
-                db.execSQL(DROP_TABLE);
+                //db.execSQL("DROP TABLE IF EXISTS " + TABLE_NAME);
                 onCreate(db);
             } catch (Exception e) {
                 Log.e(TAG, "onCreate - ERROR: " + e.toString());

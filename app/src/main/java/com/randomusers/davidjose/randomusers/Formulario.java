@@ -22,6 +22,9 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 public class Formulario extends AppCompatActivity {
     private static final String TAG = "Formulario.java";
@@ -31,7 +34,7 @@ public class Formulario extends AppCompatActivity {
     String data = "";
     String dataParsed = "";
     String singleParsed = "";
-    String BDemail, BDgender, BDtitle, BDfirst, BDlast, BDstreet, BDcity, BDstate, BDpostcode, BDregistered, BDpicture;
+    String BDemail, BDgender, BDtitle, BDfirst, BDlast, BDstreet, BDcity, BDstate, BDpostcode, BDregistered, BDpicture, BDusername, BDpassword;
     MainActivity helper;
 
     @Override
@@ -54,12 +57,24 @@ public class Formulario extends AppCompatActivity {
                 Log.i(TAG, "Sexo: " + sexo.getText());
                 Log.i(TAG, "Numero usuarios: " + numInsertar.getText());
                 Log.i(TAG, "Fecha: " + fechaRegistro.getText());
+                String fechaUsuarioSinSetear = fechaRegistro.getText().toString();
+                String fechaJSONSinSetear = "";
+                SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+                SimpleDateFormat dateFormatJSON = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+                Date fechaUsuario = null; //Fecha que introduce el usuario en el formulario
+                Date fechaUsuarioJSON = null;
+                try {
+                    fechaUsuario = dateFormat.parse(fechaUsuarioSinSetear);
+                }catch (ParseException e){
+                    Log.e(TAG,e.getMessage());
+                }
+                Log.i(TAG, "Fecha seteada: " + fechaUsuario.toString());
                 StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
                 StrictMode.setThreadPolicy(policy);
 
                 try {
                     String inicioURL = "https://randomuser.me/api/";
-                    url = new URL(inicioURL + "?nat=" + nacionalidad.getText() + "&gender=" + sexo.getText() + "&results=" + numInsertar.getText() + "&registered" + fechaRegistro.getText());
+                    url = new URL(inicioURL + "?nat=" + nacionalidad.getText() + "&gender=" + sexo.getText() + "&results=" + numInsertar.getText());
                     HttpURLConnection httpURLConnection = (HttpURLConnection) url.openConnection();
                     InputStream inputStream = httpURLConnection.getInputStream();
                     BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(inputStream));
@@ -74,6 +89,7 @@ public class Formulario extends AppCompatActivity {
                     JSONObject JOname = new JSONObject();
                     JSONObject JOlocation = new JSONObject();
                     JSONObject JOpicture = new JSONObject();
+                    JSONObject JOlogin = new JSONObject();
                     Log.i(TAG, "El numero de objetos que hay es: " + JA.length());
                     for (int i = 0; i < JA.length(); i++) {
                         Log.i(TAG, "Dentro del for");
@@ -84,12 +100,15 @@ public class Formulario extends AppCompatActivity {
                         JOlocation = (JSONObject) JO.get("location");
                         //Obtengo el objeto imagen
                         JOpicture = (JSONObject) JO.get("picture");
+                        //Obtengo el objeto login
+                        JOlogin = (JSONObject) JO.get("login");
                         Log.i(TAG, "singleParsed");
                         singleParsed = "Genero: " + JO.get("gender") + "\n" +
                                 "Email: " + JO.get("email") + "\n" +
                                 "Nombre: " + JOname.get("title") + " " + JOname.get("first") + " " + JOname.get("last") + "\n" +
                                 "Localizacion: " + JOlocation.get("street") + " " + JOlocation.get("city") + " " + JOlocation.get("state") + " " + JOlocation.get("postcode") + "\n" +
                                 "Fecha de registro: " + JO.get("registered") + "\n" +
+                                "Login: " + JOlogin.get("username") + " " + JOlogin.get("password") +
                                 "Imagen: " + JOpicture.get("large") + " " + JOpicture.get("medium") + " " + JOpicture.get("thumbnail");
                         Log.i(TAG, "dataParsed");
                         dataParsed = dataParsed + singleParsed;
@@ -106,9 +125,26 @@ public class Formulario extends AppCompatActivity {
 
                         BDregistered = JO.get("registered").toString();
                         BDpicture = JOpicture.get("large").toString();
-                        Log.i(TAG, "Objeto MainActivity 1");
-                        Log.i(TAG, "Objeto MainActivity 2");
-                        helper.insertData(BDemail, BDgender, BDtitle, BDfirst, BDlast, BDstreet, BDcity, BDstate, BDpostcode, BDregistered, BDpicture);
+
+                        BDusername = JOlogin.get("username").toString();
+                        BDpassword = JOlogin.get("password").toString();
+
+                        fechaJSONSinSetear = BDregistered;
+                        Log.i(TAG, "Fecha JSON sin seteada: " + BDregistered.toString());
+                        try {
+                            fechaUsuarioJSON = dateFormatJSON.parse(fechaJSONSinSetear);
+                        }catch (ParseException e){
+                            e.printStackTrace();
+                        }
+                        Log.i(TAG, "Fecha JSON seteada: " + fechaUsuarioJSON.toString());
+                        if (fechaUsuarioJSON.before(fechaUsuario)) {
+                            Log.i(TAG, "Las fechas generadas : " + fechaUsuarioJSON + " son anteriores a la introducida por el usuario: " + fechaUsuario);
+                            helper.insertData(BDusername, BDpassword, BDemail, BDgender, BDtitle, BDfirst, BDlast, BDstreet, BDcity, BDstate, BDpostcode, BDregistered, BDpicture);
+                        }
+                        else{
+                            Log.i(TAG, "Las fechas generadas : " + fechaUsuarioJSON + " son posteriores a la introducida por el usuario: " + fechaUsuario);
+                        }
+
                     }
                 } catch (MalformedURLException e) {
                     e.printStackTrace();
@@ -125,7 +161,9 @@ public class Formulario extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 String data = helper.getData();
-                Toast.makeText(Formulario.this, data, Toast.LENGTH_LONG);
+                Toast toast1 = Toast.makeText(getApplicationContext(), data, Toast.LENGTH_LONG);
+                toast1.show();
+
             }
         });
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
