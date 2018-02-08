@@ -71,7 +71,7 @@ public class Formulario extends AppCompatActivity {
                 Log.i(TAG, "Fecha seteada: " + fechaUsuario.toString());
                 StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
                 StrictMode.setThreadPolicy(policy);
-
+                int numeroInserciones = 0;
                 try {
                     String inicioURL = "https://randomuser.me/api/";
                     url = new URL(inicioURL + "?nat=" + nacionalidad.getText() + "&gender=" + sexo.getText() + "&results=" + numInsertar.getText());
@@ -113,7 +113,12 @@ public class Formulario extends AppCompatActivity {
                         Log.i(TAG, "dataParsed");
                         dataParsed = dataParsed + singleParsed;
                         BDemail = JO.get("email").toString();
-                        BDgender = JO.get("gender").toString();
+                        if(JO.get("gender").toString().equalsIgnoreCase("female")){
+                            BDgender = "F";
+                        }
+                        if(JO.get("gender").toString().equalsIgnoreCase("male")){
+                            BDgender = "M";
+                        }
                         BDtitle = JOname.get("title").toString();
                         BDfirst = JOname.get("first").toString();
                         BDlast = JOname.get("last").toString();
@@ -138,6 +143,7 @@ public class Formulario extends AppCompatActivity {
                         }
                         Log.i(TAG, "Fecha JSON seteada: " + fechaUsuarioJSON.toString());
                         if (fechaUsuarioJSON.before(fechaUsuario)) {
+                            numeroInserciones++;
                             Log.i(TAG, "Las fechas generadas : " + fechaUsuarioJSON + " son anteriores a la introducida por el usuario: " + fechaUsuario);
                             helper.insertData(BDusername, BDpassword, BDemail, BDgender, BDtitle, BDfirst, BDlast, BDstreet, BDcity, BDstate, BDpostcode, BDregistered, BDpicture);
                         }
@@ -154,6 +160,8 @@ public class Formulario extends AppCompatActivity {
                     e.printStackTrace();
                 }
                 Log.i(TAG, "La URL construida es: " + url.toString());
+                Toast toastNumeroInserciones = Toast.makeText(getApplicationContext(), "El total de registros guardados es:  " + numeroInserciones, Toast.LENGTH_LONG);
+                toastNumeroInserciones.show();
             }
         });
 

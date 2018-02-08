@@ -8,10 +8,12 @@
 
     <ImageView
         android:id="@+id/imageView1ID"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="5sp"
-        android:layout_marginRight="5sp"
+        android:layout_width="168dp"
+        android:layout_height="86dp"
+        android:layout_marginBottom="1sp"
+        android:layout_marginLeft="3sp"
+        android:layout_marginRight="3sp"
+        android:layout_marginTop="1sp"
         android:layout_weight="1"
         app:srcCompat="@mipmap/ic_launcher" />
 
@@ -58,11 +60,14 @@
 
             <Button
                 android:id="@+id/button3"
-                android:layout_width="wrap_content"
+                android:layout_width="57dp"
                 android:layout_height="wrap_content"
                 android:layout_marginRight="5sp"
                 android:layout_weight="1"
-                android:text="LOCALIZACIÓN" />
+                android:backgroundTint="@android:color/holo_orange_dark"
+                android:drawableRight="@android:drawable/ic_menu_mylocation"
+                android:text="MAPS" />
+
         </LinearLayout>
 
     </LinearLayout>

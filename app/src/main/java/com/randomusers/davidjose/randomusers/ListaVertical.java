@@ -1,5 +1,7 @@
 package com.randomusers.davidjose.randomusers;
 
+import android.graphics.Bitmap;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -9,7 +11,12 @@ import android.view.View;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import java.io.BufferedInputStream;
+import java.io.BufferedOutputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.InputStream;
 import java.lang.reflect.Array;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -42,13 +49,18 @@ public class ListaVertical extends AppCompatActivity {
             "17-12-2012"
     };
     */
+    List<String> imageStringList = new ArrayList<>();
+    //List<Integer> imageList = new ArrayList<>();
 
+    /*
     Integer[] imageArray = {R.drawable.ic_launcher_background,
             R.drawable.ic_launcher_background,
             R.drawable.ic_launcher_background,
             R.drawable.ic_launcher_background,
             R.drawable.ic_launcher_background,
+            R.drawable.ic_launcher_background,
             R.drawable.ic_launcher_background};
+    */
     ListView listView;
 
 
@@ -60,21 +72,28 @@ public class ListaVertical extends AppCompatActivity {
         helper = new MainActivity(this);
         String data = helper.getData(); //Devuelve un string con los usuarios separados por \n y cada dato separado por ;
         String[] datosRecibidosPorUsuario = data.split("\n"); //Se usara para almacenar en cada posicion todos los datos de un usuario
-        int tamanyoDatosRecibidosPorUsuario = datosRecibidosPorUsuario.length;
 
         for (int i = 0; i<datosRecibidosPorUsuario.length ; i++){
             String[] datosUnicoUsuario = datosRecibidosPorUsuario[i].split(";");
             nameList.add(datosUnicoUsuario[5]);
             genderList.add(datosUnicoUsuario[3]);
             dateList.add(datosUnicoUsuario[7]);
+            imageStringList.add(datosUnicoUsuario[8]);
         }
         String[] nameArray = nameList.toArray(new String[nameList.size()]);
         String[] genderArray = genderList.toArray(new String[genderList.size()]);
         String[] dateArray = dateList.toArray(new String[dateList.size()]);
+        String[] imageStringArray = imageStringList.toArray(new String[imageStringList.size()]);
+/*
+        for (int i = 0; i<imageStringArray.length ; i++) {
+            imageList.add(LoadImageFromWebURL(imageStringArray[i]));
+        }
+*/
 
-        CustomListAdapter whatever = new CustomListAdapter(this, nameArray, genderArray, dateArray, imageArray);
+        CustomListAdapter whatever = new CustomListAdapter(this, nameArray, genderArray, dateArray, imageStringArray);
         listView = (ListView) findViewById(R.id.listviewID);
         listView.setAdapter(whatever);
-
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
     }
 }
