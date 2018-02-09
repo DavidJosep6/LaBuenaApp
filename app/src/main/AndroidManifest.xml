@@ -31,6 +31,10 @@
             android:name=".Formulario"
             android:label="@string/title_activity_formulario"
             android:theme="@style/AppTheme.NoActionBar">
+            android:parentActivityName=".Inicio"
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".Formulario" />
             <intent-filter>
                 <action android:name="com.randomusers.davidjose.randomusers.FORMULARIO" />
                 <category android:name="android.intent.category.DEFAULT" />
@@ -40,6 +44,10 @@
             android:name=".ListaVertical"
             android:label="@string/title_activity_lista_vertical"
             android:theme="@style/AppTheme.NoActionBar">
+            android:parentActivityName=".Inicio"
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".ListaVertical" />
             <intent-filter>
                 <action android:name="com.randomusers.davidjose.randomusers.LISTA_VERTICAL" />
                 <category android:name="android.intent.category.DEFAULT" />

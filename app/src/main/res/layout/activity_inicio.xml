@@ -23,7 +23,7 @@
         android:layout_alignParentStart="true"
         android:layout_alignParentTop="true"
         android:layout_marginTop="89dp"
-        android:text="Generar nuevos usuarios" />
+        android:text="@string/activity_random_user_bienvenida_generar" />
 
     <Button
         android:id="@+id/Restar"
@@ -33,6 +33,6 @@
         android:layout_alignParentStart="true"
         android:layout_below="@+id/Sumar"
         android:layout_marginTop="19dp"
-        android:text="Visualizar los usuarios" />
+        android:text="@string/activity_random_user_bienvenida_visualizar" />
 
 </RelativeLayout>

@@ -16,7 +16,7 @@
         android:layout_alignParentTop="true"
         android:layout_marginStart="15dp"
         android:layout_marginTop="32dp"
-        android:text="Nacionalidad: "
+        android:text="@string/activity_formulario_nacionalidad"
         android:textAllCaps="false"
         android:textSize="18sp"
         android:textStyle="bold" />
@@ -28,7 +28,7 @@
         android:layout_alignBaseline="@+id/NacionalidadTV"
         android:layout_alignBottom="@+id/NacionalidadTV"
         android:layout_toEndOf="@+id/NacionalidadTV"
-        android:hint="Nacionalidad"
+        android:hint="@string/activity_formulario_nacionalidad_hint"
         android:textSize="18sp" />
 
     <TextView
@@ -38,9 +38,9 @@
         android:layout_alignStart="@+id/NacionalidadTV"
         android:layout_below="@+id/Nacionalidad"
         android:layout_marginTop="25dp"
-        android:text="Sexo: "
+        android:text="@string/activity_formulario_sexo"
         android:textSize="18sp"
-        android:textStyle="bold"/>
+        android:textStyle="bold" />
 
     <EditText
         android:id="@+id/Sexo"
@@ -49,7 +49,7 @@
         android:layout_alignBaseline="@+id/SexoTV"
         android:layout_alignBottom="@+id/SexoTV"
         android:layout_toEndOf="@+id/SexoTV"
-        android:hint="Sexo"
+        android:hint="@string/activity_formulario_sexo_hint"
         android:textSize="18sp" />
 
     <TextView
@@ -59,9 +59,9 @@
         android:layout_alignStart="@+id/SexoTV"
         android:layout_below="@+id/Sexo"
         android:layout_marginTop="25dp"
-        android:text="Número de usuarios: "
+        android:text="@string/activity_formulario_numusuarios"
         android:textSize="18sp"
-        android:textStyle="bold"/>
+        android:textStyle="bold" />
 
     <EditText
         android:id="@+id/NumeroUsuarios"
@@ -70,9 +70,9 @@
         android:layout_alignBaseline="@+id/RegistrosTV"
         android:layout_alignBottom="@+id/RegistrosTV"
         android:layout_toEndOf="@+id/RegistrosTV"
-        android:hint="Nº registros"
-        android:textSize="18sp"
-        android:inputType="number"/>
+        android:hint="@string/activity_formulario_numusuarios_hint"
+        android:inputType="number"
+        android:textSize="18sp" />
 
     <TextView
         android:id="@+id/FechaTV"
@@ -81,7 +81,7 @@
         android:layout_alignStart="@+id/RegistrosTV"
         android:layout_below="@+id/NumeroUsuarios"
         android:layout_marginTop="27dp"
-        android:text=" Máxima fecha: "
+        android:text="@string/activity_formulario_fecha"
         android:textSize="18sp"
         android:textStyle="bold" />
 
@@ -92,9 +92,9 @@
         android:layout_alignBaseline="@+id/FechaTV"
         android:layout_alignBottom="@+id/FechaTV"
         android:layout_toEndOf="@+id/FechaTV"
-        android:hint="(dd/mm/aaaa)"
-        android:textSize="18sp"
-        android:inputType="date"/>
+        android:hint="@string/activity_formulario_fecha_hint"
+        android:inputType="date"
+        android:textSize="18sp" />
 
     <Button
         android:id="@+id/enviarForm"
@@ -105,7 +105,7 @@
         android:layout_alignParentEnd="true"
         android:layout_marginBottom="18dp"
         android:layout_marginEnd="24dp"
-        android:text="Generar usuarios" />
+        android:text="@string/activity_formulario_generar" />
 
     <Button
         android:id="@+id/verForm"

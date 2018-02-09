@@ -100,7 +100,7 @@ public class Formulario extends AppCompatActivity {
                     if (controlDatoIncorrecto){
                         nacionalidadTV.setError("");
                         nacionalidadTV.setTextColor(Color.RED);
-                        toasStringtErrorDatos = toasStringtErrorDatos + "\n- La nacionalidad no es correcta, pruebe con: \n AU, BR, CA, CH, DE, DK, ES, FI, FR, GB, IE, IR, NL, NZ, TR, US\n";
+                        toasStringtErrorDatos = toasStringtErrorDatos + getString(R.string.activity_formulario_nacionalidad_error);
                         //Toast toastNacionalidadIncorrecta = Toast.makeText(getApplicationContext(), "La nacionalidad no es correcta, pruebe con: \n AU, BR, CA, CH, DE, DK, ES, FI, FR, GB, IE, IR, NL, NZ, TR, US", Toast.LENGTH_LONG);
                         //toastNacionalidadIncorrecta.show();
                         nacionalidad.setText("");
@@ -117,7 +117,7 @@ public class Formulario extends AppCompatActivity {
                     if (controlDatoIncorrecto) {
                         sexoTV.setError("");
                         sexoTV.setTextColor(Color.RED);
-                        toasStringtErrorDatos = toasStringtErrorDatos + "\n- El genero no es correcto, pruebe con: \n male,female\n";
+                        toasStringtErrorDatos = toasStringtErrorDatos + getString(R.string.activity_formulario_sexo_error);
                         //Toast toastGeneroIncorrecta = Toast.makeText(getApplicationContext(), "El genero no es correcto, pruebe con: \n male,female", Toast.LENGTH_LONG);
                         //toastGeneroIncorrecta.show();
                         sexo.setText("");
@@ -132,7 +132,7 @@ public class Formulario extends AppCompatActivity {
                         fechaRegistroTV.setError("");
                         fechaRegistroTV.setTextColor(Color.RED);
                         controlDatoIncorrecto = true;
-                        toasStringtErrorDatos = toasStringtErrorDatos + "\n- El formato de la fecha no es correcto, use el formato: \n dd/mm/aaaa\n";
+                        toasStringtErrorDatos = toasStringtErrorDatos + getString(R.string.activity_formulario_fecha_error);
                         //Toast toastFechaIncorrecta = Toast.makeText(getApplicationContext(), "El formato de la fecha no es correcto", Toast.LENGTH_LONG);
                         //toastFechaIncorrecta.show();
                         fechaRegistro.setText("");
@@ -225,7 +225,7 @@ public class Formulario extends AppCompatActivity {
                             e.printStackTrace();
                         }
                         Log.i(TAG, "La URL construida es: " + url.toString());
-                        Toast toastNumeroInserciones = Toast.makeText(getApplicationContext(), "El total de registros guardados es:  " + numeroInserciones, Toast.LENGTH_LONG);
+                        Toast toastNumeroInserciones = Toast.makeText(getApplicationContext(), getString(R.string.activity_formulario_generar_exito) + numeroInserciones, Toast.LENGTH_LONG);
                         toastNumeroInserciones.show();
                     }
                 }
@@ -318,7 +318,7 @@ public class Formulario extends AppCompatActivity {
                         e.printStackTrace();
                     }
                     Log.i(TAG, "La URL construida es: " + url.toString());
-                    Toast toastNumeroInserciones = Toast.makeText(getApplicationContext(), "El total de registros guardados es:  " + numeroInserciones, Toast.LENGTH_LONG);
+                    Toast toastNumeroInserciones = Toast.makeText(getApplicationContext(), getString(R.string.activity_formulario_generar_exito) + numeroInserciones, Toast.LENGTH_LONG);
                     toastNumeroInserciones.show();
                     Formulario.super.onBackPressed();
                 }
@@ -336,6 +336,8 @@ public class Formulario extends AppCompatActivity {
         });
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayShowTitleEnabled(true);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
     }
 /*
     public void viewdata(View view) {
