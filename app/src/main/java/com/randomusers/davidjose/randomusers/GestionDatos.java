@@ -11,31 +11,31 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 
-public class MainActivity {
-    private static final String TAG = "MainActivity.java";
-    MainActivityHelper myhelper;
+public class GestionDatos {
+    private static final String TAG = "GestionDatos.java";
+    GestionDatosHelper myhelper;
 
-    public MainActivity(Context context) {
-        myhelper = new MainActivityHelper(context);
+    public GestionDatos(Context context) {
+        myhelper = new GestionDatosHelper(context);
     }
 
     public long insertData(String username, String password, String email, String gender, String title, String first, String last, String street, String city, String state, String postcode, String registered, String picture) {
         SQLiteDatabase dbb = myhelper.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
-        contentValues.put(MainActivityHelper.USERNAME, username);
-        contentValues.put(MainActivityHelper.PASSWORD, password);
-        contentValues.put(MainActivityHelper.EMAIL, email);
-        contentValues.put(MainActivityHelper.GENDER, gender);
-        contentValues.put(MainActivityHelper.TITLE, title);
-        contentValues.put(MainActivityHelper.FIRST, first);
-        contentValues.put(MainActivityHelper.LAST, last);
-        contentValues.put(MainActivityHelper.STREET, street);
-        contentValues.put(MainActivityHelper.CITY, city);
-        contentValues.put(MainActivityHelper.STATE, state);
-        contentValues.put(MainActivityHelper.POSTCODE, postcode);
-        contentValues.put(MainActivityHelper.REGISTERED, registered);
-        contentValues.put(MainActivityHelper.PICTURE, picture);
-        long id = dbb.insert(MainActivityHelper.TABLE_NAME, null, contentValues);
+        contentValues.put(GestionDatosHelper.USERNAME, username);
+        contentValues.put(GestionDatosHelper.PASSWORD, password);
+        contentValues.put(GestionDatosHelper.EMAIL, email);
+        contentValues.put(GestionDatosHelper.GENDER, gender);
+        contentValues.put(GestionDatosHelper.TITLE, title);
+        contentValues.put(GestionDatosHelper.FIRST, first);
+        contentValues.put(GestionDatosHelper.LAST, last);
+        contentValues.put(GestionDatosHelper.STREET, street);
+        contentValues.put(GestionDatosHelper.CITY, city);
+        contentValues.put(GestionDatosHelper.STATE, state);
+        contentValues.put(GestionDatosHelper.POSTCODE, postcode);
+        contentValues.put(GestionDatosHelper.REGISTERED, registered);
+        contentValues.put(GestionDatosHelper.PICTURE, picture);
+        long id = dbb.insert(GestionDatosHelper.TABLE_NAME, null, contentValues);
         return id;
     }
 
@@ -61,15 +61,15 @@ public class MainActivity {
             String postcode = cursor.getString(cursor.getColumnIndex(myhelper.POSTCODE));
             String registered = cursor.getString(cursor.getColumnIndex(myhelper.REGISTERED));
             String picture = cursor.getString(cursor.getColumnIndex(myhelper.PICTURE));
-            buffer.append(username + ";" + password + ";" + email + ";" + gender + ";" + title + ";" + first + " " + last + ";" + street + " " + city + " " + state + "" + postcode + ";" + registered + ";" + picture + "\n");
-            Log.i(TAG,  username + ";" + password + ";" + email + ";" + gender + ";" + title + ";" + first + " " + last + ";" + street + " " + city + " " + state + "" + postcode + ";" + registered + ";" + picture + "\n");
+            buffer.append(username + ";" + password + ";" + email + ";" + gender + ";" + title + ";" + first + " " + last + ";" + street + ", " + city + ", " + state + ", " + postcode + ";" + registered + ";" + picture + "\n");
+            Log.i(TAG,  username + ";" + password + ";" + email + ";" + gender + ";" + title + ";" + first + " " + last + ";" + street + " " + city + " " + state + " " + postcode + ";" + registered + ";" + picture + "\n");
 
         }
         Log.i(TAG, "getData() - FIN");
         return buffer.toString();
     }
 
-    static class MainActivityHelper extends SQLiteOpenHelper {
+    static class GestionDatosHelper extends SQLiteOpenHelper {
         private static final String DATABASE_NAME = "RandomDB";    // Database Name
         private static final String TABLE_NAME = "RandomTable";   // Table Name
         private static final int DATABASE_Version = 1;    // Database Version
@@ -105,11 +105,11 @@ public class MainActivity {
         private static final String DROP_TABLE = "DROP TABLE IF EXISTS " + TABLE_NAME;
         private Context context;
 
-        public MainActivityHelper(Context context) {
+        public GestionDatosHelper(Context context) {
             super(context, DATABASE_NAME, null, DATABASE_Version);
-            Log.i(TAG, "MainActivityHelper - INICIO");
+            Log.i(TAG, "GestionDatosHelper - INICIO");
             this.context = context;
-            Log.i(TAG, "MainActivityHelper - FIN");
+            Log.i(TAG, "GestionDatosHelper - FIN");
         }
 
         public void onCreate(SQLiteDatabase db) {

@@ -51,22 +51,37 @@
             android:layout_height="wrap_content"
             android:orientation="horizontal">
 
-            <TextView
-                android:id="@+id/fechaRow"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:text="TextView" />
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/localizacionRow"
+                    android:layout_width="match_parent"
+                    android:layout_height="38dp"
+                    android:layout_weight="1"
+                    android:text="TextView" />
+
+                <TextView
+                    android:id="@+id/fechaRow"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="TextView"
+                    android:textSize="12sp" />
+            </LinearLayout>
 
             <Button
-                android:id="@+id/button3"
-                android:layout_width="57dp"
+                android:id="@+id/mapsButton"
+                style="@android:style/Widget.Button.Inset"
+                android:layout_width="100dp"
                 android:layout_height="wrap_content"
                 android:layout_marginRight="5sp"
                 android:layout_weight="1"
-                android:backgroundTint="@android:color/holo_orange_dark"
-                android:drawableRight="@android:drawable/ic_menu_mylocation"
-                android:text="MAPS" />
+                android:backgroundTint="@color/colorAccent"
+                android:drawableRight="@android:drawable/ic_menu_mylocation" />
 
         </LinearLayout>
 
