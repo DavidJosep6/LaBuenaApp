@@ -86,6 +86,10 @@ public class Inicio extends AppCompatActivity {
                 startActivity(abrirLista);
             }
         });
+
+        GestionDatos helper = new GestionDatos(this);
+        helper.insertData("username", "password", "email", "gender", "title", "first", "last", "street", "city", "state", "postcode", "registered", "https://www.limestone.edu/sites/default/files/user.png");
+
     }
 
 }

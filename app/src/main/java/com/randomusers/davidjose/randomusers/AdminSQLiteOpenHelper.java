@@ -18,7 +18,6 @@ public class AdminSQLiteOpenHelper extends SQLiteOpenHelper {
     @Override
     public void onCreate(SQLiteDatabase db) {
         //aquí creamos la tabla de usuario (email,genero,title,first,last,street,city,state,postcode,registered,picture)
-
         db.execSQL("create table usuarios(email text primary key, genero text, title text, first text, street text, city text, state text, postcode text, registered text, picture text)");
     }
 

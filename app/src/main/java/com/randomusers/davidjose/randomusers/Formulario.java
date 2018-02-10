@@ -211,7 +211,6 @@ public class Formulario extends AppCompatActivity {
                                 BDusername = JOlogin.get("username").toString();
                                 BDpassword = JOlogin.get("password").toString();
 
-                                fechaJSONSinSetear = BDregistered;
                                 Log.i(TAG, "Fecha JSON sin seteada: " + BDregistered.toString());
                                 numeroInserciones++;
                                 helper.insertData(BDusername, BDpassword, BDemail, BDgender, BDtitle, BDfirst, BDlast, BDstreet, BDcity, BDstate, BDpostcode, BDregistered, BDpicture);
@@ -275,8 +274,11 @@ public class Formulario extends AppCompatActivity {
                             if (JO.get("gender").toString().equalsIgnoreCase("female")) {
                                 BDgender = "F";
                             }
-                            if (JO.get("gender").toString().equalsIgnoreCase("male")) {
+                            else if (JO.get("gender").toString().equalsIgnoreCase("male")) {
                                 BDgender = "M";
+                            }
+                            else{
+                                BDgender = "Género";
                             }
                             BDtitle = JOname.get("title").toString();
                             BDfirst = JOname.get("first").toString();
