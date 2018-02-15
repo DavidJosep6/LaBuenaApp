@@ -1,7 +1,7 @@
 <resources>
-    <string name="app_name">RandomUsers</string>
+    <string name="app_name">User Management</string>
     <!-- String para toolbar -->
-    <string name="title_activity_random_user_bienvenida">RandomUserBienvenida</string>
+    <string name="title_activity_random_user_bienvenida">User Management</string>
     <string name="title_activity_formulario">Formulario de creación</string>
     <string name="title_activity_lista">Lista</string>
     <string name="title_activity_lista_vertical">Lista de usuarios</string>
@@ -14,28 +14,22 @@
     <string name="activity_formulario_nacionalidad">"Nacionalidad: "</string>
     <string name="activity_formulario_nacionalidad_hint">"Nacionalidad"</string>
     <string name="activity_formulario_nacionalidad_error">
-"
-- La nacionalidad no es correcta, pruebe con:
- AU, BR, CA, CH, DE, DK, ES, FI, FR, GB, IE, IR, NL, NZ, TR, US
-        "
+"La nacionalidad no es correcta, pruebe con:
+ AU, BR, CA, CH, DE, DK, ES, FI, FR, GB, IE, IR, NL, NZ, TR, US"
 </string>
     <string name="activity_formulario_sexo">"Sexo: "</string>
     <string name="activity_formulario_sexo_hint">"Sexo"</string>
     <string name="activity_formulario_sexo_error">
-"
-- El genero no es correcto, pruebe con:
- male,female
-        "
+"El genero no es correcto, pruebe con:
+ male,female"
 </string>
     <string name="activity_formulario_numusuarios">"Número de usuarios: "</string>
     <string name="activity_formulario_numusuarios_hint">"Nº registros"</string>
     <string name="activity_formulario_fecha">"Máxima fecha: "</string>
     <string name="activity_formulario_fecha_hint">"(dd/mm/aaaa)"</string>
     <string name="activity_formulario_fecha_error">
-"
-- El formato de la fecha no es correcto, use el formato:
- dd/mm/aaaa
-        "
+"El formato de la fecha no es correcto, use el formato:
+ dd/mm/aaaa"
 </string>
     <string name="activity_formulario_generar">Generar usuarios</string>
     <string name="activity_formulario_generar_exito">"El total de registros guardados es: "</string>

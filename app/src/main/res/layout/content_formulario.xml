@@ -107,13 +107,4 @@
         android:layout_marginEnd="24dp"
         android:text="@string/activity_formulario_generar" />
 
-    <Button
-        android:id="@+id/verForm"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignBaseline="@+id/enviarForm"
-        android:layout_alignBottom="@+id/enviarForm"
-        android:layout_alignStart="@+id/FechaTV"
-        android:text="Ver usuarios" />
-
 </RelativeLayout>

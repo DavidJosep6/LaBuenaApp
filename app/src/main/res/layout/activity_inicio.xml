@@ -6,32 +6,24 @@
     android:layout_height="match_parent"
     tools:context="com.randomusers.davidjose.randomusers.Inicio">
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="452dp"
-        android:text="Su Total es 0"
-        android:textSize="30sp"
-        android:layout_centerHorizontal="true"
-        android:id="@+id/tvMostrar"/>
 
     <Button
-        android:id="@+id/Sumar"
+        android:id="@+id/Generar"
         style="@style/Widget.AppCompat.Button.Colored"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentStart="true"
         android:layout_alignParentTop="true"
-        android:layout_marginTop="89dp"
+        android:layout_marginTop="23dp"
         android:text="@string/activity_random_user_bienvenida_generar" />
 
     <Button
-        android:id="@+id/Restar"
+        android:id="@+id/Visualizar"
         style="@style/Widget.AppCompat.Button.Colored"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentStart="true"
-        android:layout_below="@+id/Sumar"
+        android:layout_below="@+id/Generar"
         android:layout_marginTop="19dp"
         android:text="@string/activity_random_user_bienvenida_visualizar" />
 

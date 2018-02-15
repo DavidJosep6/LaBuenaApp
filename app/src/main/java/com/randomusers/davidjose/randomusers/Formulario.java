@@ -1,9 +1,7 @@
 package com.randomusers.davidjose.randomusers;
 
-import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
-import android.os.Message;
 import android.os.StrictMode;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -28,28 +26,31 @@ import java.net.URL;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+/**
+ * Funcionalidad: Recuperar los datos introducidos por el usuario, en caso de haberlos, para poder validarlos y generar asi la URL correctamente,
+ *                recibir el JSON con los usuarios y almacenarlos en la BBDD.
+ */
 
 public class Formulario extends AppCompatActivity {
     private static final String TAG = "Formulario.java";
-    Button enviarFormulario, verFormulario;
+
+    Button enviarFormulario;
     EditText nacionalidad, sexo, numInsertar, fechaRegistro;
     TextView nacionalidadTV, sexoTV, numinsertarTV, fechaRegistroTV;
     URL url = null;
     String data = "";
-    String dataParsed = "";
-    String singleParsed = "";
     String BDemail, BDgender, BDtitle, BDfirst, BDlast, BDstreet, BDcity, BDstate, BDpostcode, BDregistered, BDpicture, BDusername, BDpassword;
     GestionDatos helper;
 
-    private static final Intent redireccionarAInicio = new Intent("com.randomusers.davidjose.randomusers.INICIO");
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        Log.i(TAG, "onCreate() - INICIO");
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_formulario);
 
+        //Obtencion de las referencias de content_formulario.xml
         enviarFormulario = (Button) findViewById(R.id.enviarForm);
-        verFormulario = (Button) findViewById(R.id.verForm);
         nacionalidad = (EditText) findViewById(R.id.Nacionalidad);
         sexo = (EditText) findViewById(R.id.Sexo);
         numInsertar = (EditText) findViewById(R.id.NumeroUsuarios);
@@ -59,37 +60,34 @@ public class Formulario extends AppCompatActivity {
         sexoTV = (TextView) findViewById(R.id.SexoTV);
         fechaRegistroTV = (TextView) findViewById(R.id.FechaTV);
 
+        //Establecer el color de los TextViews a gris al crearse la actividad
         nacionalidadTV.setTextColor(Color.DKGRAY);
         sexoTV.setTextColor(Color.DKGRAY);
         numinsertarTV.setTextColor(Color.DKGRAY);
         fechaRegistroTV.setTextColor(Color.DKGRAY);
 
+
         helper = new GestionDatos(this);
         enviarFormulario.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                int numeroInserciones = 0; //Para mostrar al usuario el toast con el numero total de inserciones
+
+                //Establecer el color de los TextViews a gris al pulsar el boton de enviar (aquellos que tengan error cambiaran a rojo)
                 nacionalidadTV.setTextColor(Color.DKGRAY);
                 sexoTV.setTextColor(Color.DKGRAY);
                 numinsertarTV.setTextColor(Color.DKGRAY);
                 fechaRegistroTV.setTextColor(Color.DKGRAY);
-                nacionalidadTV.setError(null);
-                sexoTV.setError(null);
-                fechaRegistroTV.setError(null);
 
+                //Logs para visualizar los valores introducidos por el usuario
                 Log.i(TAG, "Nacionalidad introducida: " + nacionalidad.getText());
                 Log.i(TAG, "Sexo introducido: " + sexo.getText());
                 Log.i(TAG, "Numero usuarios introducidos: " + numInsertar.getText());
                 Log.i(TAG, "Fecha introducida: " + fechaRegistro.getText());
-                String fechaUsuarioSinSetear = fechaRegistro.getText().toString();
-                String fechaJSONSinSetear = "";
-                SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
-                SimpleDateFormat dateFormatJSON = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
-                Date fechaUsuario = null; //Fecha que introduce el usuario en el formulario
-                Date fechaUsuarioJSON = null;
-                boolean controlDatoIncorrecto = false;
+
+                boolean controlDatoIncorrecto = false; //Variable para checkear que no haya ningun fallo en los EditText rellenados (false - no hay error, true - si hay error)
                 String[] generosDisponibles = {"male", "female"};
                 String[] nacionalidadesDisponibles = {"AU", "BR", "CA", "CH", "DE", "DK", "ES", "FI", "FR", "GB", "IE", "IR", "NL", "NZ", "TR", "US"};
-                String toasStringtErrorDatos = "";
                 if (!("").equals(nacionalidad.getText().toString())){
                     controlDatoIncorrecto = true;
                     for (int iter = 0; iter < nacionalidadesDisponibles.length; iter++){
@@ -97,12 +95,10 @@ public class Formulario extends AppCompatActivity {
                             controlDatoIncorrecto = false;
                         }
                     }
-                    if (controlDatoIncorrecto){
-                        nacionalidadTV.setError("");
+                    if (controlDatoIncorrecto){ //Hay error por lo que introducimos un mensaje de error, cambiamos el color y vaciamos el campo
+                        Log.i(TAG, "ERROR en nacionalidad: " + nacionalidad.getText());
+                        nacionalidad.setError(getString(R.string.activity_formulario_nacionalidad_error));
                         nacionalidadTV.setTextColor(Color.RED);
-                        toasStringtErrorDatos = toasStringtErrorDatos + getString(R.string.activity_formulario_nacionalidad_error);
-                        //Toast toastNacionalidadIncorrecta = Toast.makeText(getApplicationContext(), "La nacionalidad no es correcta, pruebe con: \n AU, BR, CA, CH, DE, DK, ES, FI, FR, GB, IE, IR, NL, NZ, TR, US", Toast.LENGTH_LONG);
-                        //toastNacionalidadIncorrecta.show();
                         nacionalidad.setText("");
                     }
                 }
@@ -114,44 +110,42 @@ public class Formulario extends AppCompatActivity {
                             controlDatoIncorrecto = false;
                         }
                     }
-                    if (controlDatoIncorrecto) {
-                        sexoTV.setError("");
+                    if (controlDatoIncorrecto) { //Hay error por lo que introducimos un mensaje de error, cambiamos el color y vaciamos el campo
+                        Log.i(TAG, "ERROR en sexo: " + sexo.getText());
+                        sexo.setError(getString(R.string.activity_formulario_sexo_error));
                         sexoTV.setTextColor(Color.RED);
-                        toasStringtErrorDatos = toasStringtErrorDatos + getString(R.string.activity_formulario_sexo_error);
-                        //Toast toastGeneroIncorrecta = Toast.makeText(getApplicationContext(), "El genero no es correcto, pruebe con: \n male,female", Toast.LENGTH_LONG);
-                        //toastGeneroIncorrecta.show();
                         sexo.setText("");
+
                     }
                 }
 
+                String fechaUsuarioSinSetear = fechaRegistro.getText().toString();
+                String fechaJSONSinSetear = "";
+                SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy"); //Formato de la fecha que mete el usuario
+                SimpleDateFormat dateFormatJSON = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");  //Formato de la fecha que se recibe del JSON
+                Date fechaUsuario = null; //Fecha introducida por el usuario con formato
+                Date fechaUsuarioJSON = null; //Fecha recibida del JSON con formato
                 if (!("").equals(fechaUsuarioSinSetear)) {
-                    try {
+                    try { //Intentamos formatear la fecha que solo puede ser del tipo dd/mm/aaaa, si no tiene ese formato saltara al catch
                         fechaUsuario = dateFormat.parse(fechaUsuarioSinSetear);
-                        Log.i(TAG, "Fecha seteada: " + fechaUsuario.toString());
-                    } catch (ParseException e) {
-                        fechaRegistroTV.setError("");
+                    } catch (ParseException e) { //Hay error por lo que introducimos un mensaje de error, cambiamos el color y vaciamos el campo
+                        Log.i(TAG, "ERROR en fechaRegistro: " + fechaRegistro.getText());
+                        fechaRegistro.setError(getString(R.string.activity_formulario_fecha_error));
                         fechaRegistroTV.setTextColor(Color.RED);
                         controlDatoIncorrecto = true;
-                        toasStringtErrorDatos = toasStringtErrorDatos + getString(R.string.activity_formulario_fecha_error);
-                        //Toast toastFechaIncorrecta = Toast.makeText(getApplicationContext(), "El formato de la fecha no es correcto", Toast.LENGTH_LONG);
-                        //toastFechaIncorrecta.show();
                         fechaRegistro.setText("");
                     }
                 }
-
-                if(controlDatoIncorrecto){
-                    Toast toastErrorDatos = Toast.makeText(getApplicationContext(), toasStringtErrorDatos, Toast.LENGTH_LONG);
-                    toastErrorDatos.show();
-                }
+                //Permisos para poder establecer una conexion en el main, siendo conscientes de sus implicaciones
                 StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
                 StrictMode.setThreadPolicy(policy);
-                int numeroInserciones = 0;
 
-                if (!controlDatoIncorrecto && ("").equals(fechaUsuarioSinSetear)) {
+                if (!controlDatoIncorrecto && ("").equals(fechaUsuarioSinSetear)) { //Sin fecha
                     {
                         try {
                             String inicioURL = "https://randomuser.me/api/";
                             url = new URL(inicioURL + "?nat=" + nacionalidad.getText() + "&gender=" + sexo.getText() + "&results=" + numInsertar.getText());
+                            Log.i(TAG, "La URL construida es: " + url.toString());
                             HttpURLConnection httpURLConnection = (HttpURLConnection) url.openConnection();
                             InputStream inputStream = httpURLConnection.getInputStream();
                             BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(inputStream));
@@ -159,42 +153,32 @@ public class Formulario extends AppCompatActivity {
                             while (line != null) {
                                 line = bufferedReader.readLine();
                                 data = data + line;
-                                Log.i(TAG, "Estoy leyendo");
                             }
                             JSONObject JOresultados = new JSONObject(data); //Se guarda todo el objeto recibido formado por results e info
                             JSONArray JA = JOresultados.getJSONArray("results"); //Guardamos en un array los distintos results
+                            //Objetos JSON para poder acceder luego a los datos
                             JSONObject JOname = new JSONObject();
                             JSONObject JOlocation = new JSONObject();
                             JSONObject JOpicture = new JSONObject();
                             JSONObject JOlogin = new JSONObject();
-                            Log.i(TAG, "El numero de objetos que hay es: " + JA.length());
                             for (int i = 0; i < JA.length(); i++) {
-                                Log.i(TAG, "Dentro del for");
                                 JSONObject JO = (JSONObject) JA.get(i);
-                                //Obtengo el objeto nombre
+                                //Obtengo el objeto nombre, localizacion, imagen y login
                                 JOname = (JSONObject) JO.get("name");
-                                //Obtengo el objeto localizacion
                                 JOlocation = (JSONObject) JO.get("location");
-                                //Obtengo el objeto imagen
                                 JOpicture = (JSONObject) JO.get("picture");
-                                //Obtengo el objeto login
                                 JOlogin = (JSONObject) JO.get("login");
-                                Log.i(TAG, "singleParsed");
-                                singleParsed = "Genero: " + JO.get("gender") + "\n" +
-                                        "Email: " + JO.get("email") + "\n" +
-                                        "Nombre: " + JOname.get("title") + " " + JOname.get("first") + " " + JOname.get("last") + "\n" +
-                                        "Localizacion: " + JOlocation.get("street") + " " + JOlocation.get("city") + " " + JOlocation.get("state") + " " + JOlocation.get("postcode") + "\n" +
-                                        "Fecha de registro: " + JO.get("registered") + "\n" +
-                                        "Login: " + JOlogin.get("username") + " " + JOlogin.get("password") +
-                                        "Imagen: " + JOpicture.get("large") + " " + JOpicture.get("medium") + " " + JOpicture.get("thumbnail");
-                                Log.i(TAG, "dataParsed");
-                                dataParsed = dataParsed + singleParsed;
+
+                                //Formateo de los generos female y male por F y M respectivamente
                                 BDemail = JO.get("email").toString();
                                 if (JO.get("gender").toString().equalsIgnoreCase("female")) {
                                     BDgender = "F";
                                 }
-                                if (JO.get("gender").toString().equalsIgnoreCase("male")) {
+                                else if (JO.get("gender").toString().equalsIgnoreCase("male")) {
                                     BDgender = "M";
+                                }
+                                else{
+                                    BDgender = "genero";
                                 }
                                 BDtitle = JOname.get("title").toString();
                                 BDfirst = JOname.get("first").toString();
@@ -211,8 +195,8 @@ public class Formulario extends AppCompatActivity {
                                 BDusername = JOlogin.get("username").toString();
                                 BDpassword = JOlogin.get("password").toString();
 
-                                Log.i(TAG, "Fecha JSON sin seteada: " + BDregistered.toString());
                                 numeroInserciones++;
+                                Log.i(TAG, "Datos insercion: " + BDusername + " - " + BDpassword + " - " + BDemail + " - " + BDgender + " - " + BDtitle + " - " + BDfirst + " - " + BDlast + " - " + BDstreet + " - " + BDcity + " - " + BDstate + " - " + BDpostcode + " - " + BDregistered + " - " + BDpicture);
                                 helper.insertData(BDusername, BDpassword, BDemail, BDgender, BDtitle, BDfirst, BDlast, BDstreet, BDcity, BDstate, BDpostcode, BDregistered, BDpicture);
                                 Formulario.super.onBackPressed();
                             }
@@ -223,7 +207,6 @@ public class Formulario extends AppCompatActivity {
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
-                        Log.i(TAG, "La URL construida es: " + url.toString());
                         Toast toastNumeroInserciones = Toast.makeText(getApplicationContext(), getString(R.string.activity_formulario_generar_exito) + numeroInserciones, Toast.LENGTH_LONG);
                         toastNumeroInserciones.show();
                     }
@@ -233,6 +216,7 @@ public class Formulario extends AppCompatActivity {
                     try {
                         String inicioURL = "https://randomuser.me/api/";
                         url = new URL(inicioURL + "?nat=" + nacionalidad.getText() + "&gender=" + sexo.getText() + "&results=" + numInsertar.getText());
+                        Log.i(TAG, "La URL construida es: " + url.toString());
                         HttpURLConnection httpURLConnection = (HttpURLConnection) url.openConnection();
                         InputStream inputStream = httpURLConnection.getInputStream();
                         BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(inputStream));
@@ -240,37 +224,24 @@ public class Formulario extends AppCompatActivity {
                         while (line != null) {
                             line = bufferedReader.readLine();
                             data = data + line;
-                            Log.i(TAG, "Estoy leyendo");
                         }
                         JSONObject JOresultados = new JSONObject(data); //Se guarda todo el objeto recibido formado por results e info
                         JSONArray JA = JOresultados.getJSONArray("results"); //Guardamos en un array los distintos results
+                        //Objetos JSON para poder acceder luego a los datos
                         JSONObject JOname = new JSONObject();
                         JSONObject JOlocation = new JSONObject();
                         JSONObject JOpicture = new JSONObject();
                         JSONObject JOlogin = new JSONObject();
-                        Log.i(TAG, "El numero de objetos que hay es: " + JA.length());
                         for (int i = 0; i < JA.length(); i++) {
-                            Log.i(TAG, "Dentro del for");
                             JSONObject JO = (JSONObject) JA.get(i);
-                            //Obtengo el objeto nombre
+                            //Obtengo el objeto nombre, localizacion, imagen y login
                             JOname = (JSONObject) JO.get("name");
-                            //Obtengo el objeto localizacion
                             JOlocation = (JSONObject) JO.get("location");
-                            //Obtengo el objeto imagen
                             JOpicture = (JSONObject) JO.get("picture");
-                            //Obtengo el objeto login
                             JOlogin = (JSONObject) JO.get("login");
-                            Log.i(TAG, "singleParsed");
-                            singleParsed = "Genero: " + JO.get("gender") + "\n" +
-                                    "Email: " + JO.get("email") + "\n" +
-                                    "Nombre: " + JOname.get("title") + " " + JOname.get("first") + " " + JOname.get("last") + "\n" +
-                                    "Localizacion: " + JOlocation.get("street") + " " + JOlocation.get("city") + " " + JOlocation.get("state") + " " + JOlocation.get("postcode") + "\n" +
-                                    "Fecha de registro: " + JO.get("registered") + "\n" +
-                                    "Login: " + JOlogin.get("username") + " " + JOlogin.get("password") +
-                                    "Imagen: " + JOpicture.get("large") + " " + JOpicture.get("medium") + " " + JOpicture.get("thumbnail");
-                            Log.i(TAG, "dataParsed");
-                            dataParsed = dataParsed + singleParsed;
+
                             BDemail = JO.get("email").toString();
+                            //Formateo de los generos female y male por F y M respectivamente
                             if (JO.get("gender").toString().equalsIgnoreCase("female")) {
                                 BDgender = "F";
                             }
@@ -278,7 +249,7 @@ public class Formulario extends AppCompatActivity {
                                 BDgender = "M";
                             }
                             else{
-                                BDgender = "Género";
+                                BDgender = "genero";
                             }
                             BDtitle = JOname.get("title").toString();
                             BDfirst = JOname.get("first").toString();
@@ -296,21 +267,19 @@ public class Formulario extends AppCompatActivity {
                             BDpassword = JOlogin.get("password").toString();
 
                             fechaJSONSinSetear = BDregistered;
-                            Log.i(TAG, "Fecha JSON sin seteada: " + BDregistered.toString());
                             try {
-                                fechaUsuarioJSON = dateFormatJSON.parse(fechaJSONSinSetear);
+                                fechaUsuarioJSON = dateFormatJSON.parse(fechaJSONSinSetear); //Formateo de la fecha recibida del JSON
                             } catch (ParseException e) {
                                 e.printStackTrace();
                             }
-                            Log.i(TAG, "Fecha JSON seteada: " + fechaUsuarioJSON.toString());
-                            if (fechaUsuarioJSON.before(fechaUsuario)) {
+                            if (fechaUsuarioJSON.before(fechaUsuario)) { //Si la fecha del JSON es anterior a la que introduce el usuario, hago el insert
                                 numeroInserciones++;
-                                Log.i(TAG, "Las fechas generadas : " + fechaUsuarioJSON + " son anteriores a la introducida por el usuario: " + fechaUsuario);
+                                Log.i(TAG, "La fecha generada : " + fechaUsuarioJSON + " es anterior a la introducida por el usuario: " + fechaUsuario);
+                                Log.i(TAG, "Datos insercion: " + BDusername + " - " + BDpassword + " - " + BDemail + " - " + BDgender + " - " + BDtitle + " - " + BDfirst + " - " + BDlast + " - " + BDstreet + " - " + BDcity + " - " + BDstate + " - " + BDpostcode + " - " + BDregistered + " - " + BDpicture);
                                 helper.insertData(BDusername, BDpassword, BDemail, BDgender, BDtitle, BDfirst, BDlast, BDstreet, BDcity, BDstate, BDpostcode, BDregistered, BDpicture);
-                            } else {
-                                Log.i(TAG, "Las fechas generadas : " + fechaUsuarioJSON + " son posteriores a la introducida por el usuario: " + fechaUsuario);
+                            } else { //La fecha del JSON no es anterior a la que introduce el usuario por lo que no lo inserto
+                                Log.i(TAG, "La fecha generada : " + fechaUsuarioJSON + " es posterior a la introducida por el usuario: " + fechaUsuario);
                             }
-
                         }
                     } catch (MalformedURLException e) {
                         e.printStackTrace();
@@ -319,7 +288,6 @@ public class Formulario extends AppCompatActivity {
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
-                    Log.i(TAG, "La URL construida es: " + url.toString());
                     Toast toastNumeroInserciones = Toast.makeText(getApplicationContext(), getString(R.string.activity_formulario_generar_exito) + numeroInserciones, Toast.LENGTH_LONG);
                     toastNumeroInserciones.show();
                     Formulario.super.onBackPressed();
@@ -327,29 +295,12 @@ public class Formulario extends AppCompatActivity {
             }
         });
 
-        verFormulario.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                String data = helper.getData();
-                Toast toast1 = Toast.makeText(getApplicationContext(), data, Toast.LENGTH_LONG);
-                toast1.show();
-
-            }
-        });
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+        //Muestro la flecha de atras para facilitar la navegacion al usuario
         getSupportActionBar().setDisplayShowTitleEnabled(true);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        Log.i(TAG, "onCreate() - FIN");
     }
-/*
-    public void viewdata(View view) {
-String data = helper.getData();
-                Toast.makeText(Formulario.this, data, Toast.LENGTH_LONG);
-    }
-
-    public void addUser(View view)
-            long id = helper.insertData(BDemail, BDgender, BDtitle, BDfirst, BDlast, BDstreet, BDcity, BDstate, BDpostcode, BDregistered, BDpicture);
-    }
-    */
 
 }

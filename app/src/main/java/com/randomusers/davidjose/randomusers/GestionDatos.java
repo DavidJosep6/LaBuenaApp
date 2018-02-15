@@ -1,7 +1,7 @@
 package com.randomusers.davidjose.randomusers;
 
 /**
- * Created by DavidJose on 04/02/2018.
+ * Funcionalidad: Insertar (INSERT) y obtener (SELECT) datos de la BBDD.
  */
 
 import android.content.ContentValues;
@@ -20,6 +20,7 @@ public class GestionDatos {
     }
 
     public long insertData(String username, String password, String email, String gender, String title, String first, String last, String street, String city, String state, String postcode, String registered, String picture) {
+        Log.i(TAG, "insertData() - INICIO");
         SQLiteDatabase dbb = myhelper.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
         contentValues.put(GestionDatosHelper.USERNAME, username);
@@ -36,6 +37,7 @@ public class GestionDatos {
         contentValues.put(GestionDatosHelper.REGISTERED, registered);
         contentValues.put(GestionDatosHelper.PICTURE, picture);
         long id = dbb.insert(GestionDatosHelper.TABLE_NAME, null, contentValues);
+        Log.i(TAG, "insertData() - FIN");
         return id;
     }
 
@@ -43,10 +45,8 @@ public class GestionDatos {
         Log.i(TAG, "getData() - INICIO");
         SQLiteDatabase db = myhelper.getWritableDatabase();
         String[] columns = {myhelper.USERNAME,myhelper.PASSWORD,myhelper.EMAIL, myhelper.GENDER, myhelper.TITLE, myhelper.FIRST, myhelper.LAST, myhelper.STREET, myhelper.CITY, myhelper.STATE, myhelper.POSTCODE, myhelper.REGISTERED, myhelper.PICTURE,};
-        Log.i(TAG, "getData() - cursor");
         Cursor cursor = db.query(myhelper.TABLE_NAME, columns, null, null, null, null, null);
         StringBuffer buffer = new StringBuffer();
-        Log.i(TAG, "getData() - while");
         while (cursor.moveToNext()) {
             String username = cursor.getString(cursor.getColumnIndex(myhelper.USERNAME));
             String password = cursor.getString(cursor.getColumnIndex(myhelper.PASSWORD));
@@ -62,9 +62,8 @@ public class GestionDatos {
             String registered = cursor.getString(cursor.getColumnIndex(myhelper.REGISTERED));
             String picture = cursor.getString(cursor.getColumnIndex(myhelper.PICTURE));
             buffer.append(username + ";" + password + ";" + email + ";" + gender + ";" + title + ";" + first + " " + last + ";" + street + ", " + city + ", " + state + ", " + postcode + ";" + registered + ";" + picture + "\n");
-            Log.i(TAG,  username + ";" + password + ";" + email + ";" + gender + ";" + title + ";" + first + " " + last + ";" + street + " " + city + " " + state + " " + postcode + ";" + registered + ";" + picture + "\n");
-
         }
+        Log.i(TAG, "getData() - Datos de la BBDD: " + buffer.toString());
         Log.i(TAG, "getData() - FIN");
         return buffer.toString();
     }
@@ -74,18 +73,18 @@ public class GestionDatos {
         private static final String TABLE_NAME = "RandomTable";   // Table Name
         private static final int DATABASE_Version = 1;    // Database Version
         private static final String USERNAME = "USERNAME";     // Column 1 (Primary Key)
-        private static final String PASSWORD = "PASSWORD";     // Column 1
-        private static final String EMAIL = "EMAIL";     // Column 1
-        private static final String GENDER = "GENDER";    //Column 2
-        private static final String TITLE = "TITLE";    // Column 3
-        private static final String FIRST = "FIRST";    // Column 4
-        private static final String LAST = "LAST";    // Column 5
-        private static final String STREET = "STREET";    // Column 6
-        private static final String CITY = "CITY";    // Column 7
-        private static final String STATE = "STATE";    // Column 8
-        private static final String POSTCODE = "POSTCODE";    // Column 9
-        private static final String REGISTERED = "REGISTERED";    // Column 10
-        private static final String PICTURE = "PICTURE";    // Column 11
+        private static final String PASSWORD = "PASSWORD";     // Column 2
+        private static final String EMAIL = "EMAIL";     // Column 3
+        private static final String GENDER = "GENDER";    //Column 4
+        private static final String TITLE = "TITLE";    // Column 5
+        private static final String FIRST = "FIRST";    // Column 6
+        private static final String LAST = "LAST";    // Column 7
+        private static final String STREET = "STREET";    // Column 8
+        private static final String CITY = "CITY";    // Column 9
+        private static final String STATE = "STATE";    // Column 10
+        private static final String POSTCODE = "POSTCODE";    // Column 11
+        private static final String REGISTERED = "REGISTERED";    // Column 12
+        private static final String PICTURE = "PICTURE";    // Column 13
 
 
         private static final String CREATE_TABLE = "CREATE TABLE " + TABLE_NAME +
