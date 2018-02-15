@@ -61,7 +61,6 @@ public class CustomListAdapter extends ArrayAdapter {
 
         //Dar valor a las referencias anteriores con la posicion del array correspondiente
         final String map = "http://maps.google.co.in/maps?q=" + locationArray[position].toString().replace(", ", " ");
-        Log.i(TAG, "POSITION -  :" + position);
         mapsButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
