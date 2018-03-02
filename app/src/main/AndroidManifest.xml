@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.randomusers.davidjose.randomusers">
+
     <uses-permission android:name="android.permission.INTERNET" />
 
     <application
@@ -13,7 +14,6 @@
         <activity android:name=".Inicio">
             <intent-filter>
                 <action android:name="com.randomusers.davidjose.randomusers.INICIO" />
-
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
@@ -35,10 +35,8 @@
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".Formulario" />
-
             <intent-filter>
                 <action android:name="com.randomusers.davidjose.randomusers.FORMULARIO" />
-
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
@@ -50,13 +48,25 @@
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".ListaVertical" />
-
             <intent-filter>
                 <action android:name="com.randomusers.davidjose.randomusers.LISTA_VERTICAL" />
-
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
+        <activity
+            android:name=".Login"
+            android:label="@string/title_activity_login"
+            android:theme="@style/AppTheme.NoActionBar">
+            android:parentActivityName=".Inicio"
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".ListaVertical" />
+            <intent-filter>
+                <action android:name="com.randomusers.davidjose.randomusers.LOGIN" />
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+
     </application>
 
 </manifest>

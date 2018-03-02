@@ -39,11 +39,16 @@
     <string name="activity_lista_horizontal_username">"Username: "</string>
     <string name="activity_lista_horizontal_password">"Password: "</string>
 
-
-
+    <!-- String para la pantalla de login -->
+    <string name="activity_login_usuario">"Usuario "</string>
+    <string name="activity_login_contrasenya">"Contraseña "</string>
+    <string name="activity_login_boton">"INICIAR SESIÓN"</string>
+    <string name="activity_login_usuario_error">"Lo sentimos, el usuario no existe."</string>
+    <string name="activity_login_contrasenya_error">"Lo sentimos, la contraseña es incorrecta."</string>
 
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="title_activity_lista_horizontal">listaHorizontal</string>
+    <string name="title_activity_login">Login</string>
 </resources>

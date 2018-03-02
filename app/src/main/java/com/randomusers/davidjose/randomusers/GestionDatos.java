@@ -44,7 +44,7 @@ public class GestionDatos {
     public String getData() {
         Log.i(TAG, "getData() - INICIO");
         SQLiteDatabase db = myhelper.getWritableDatabase();
-        String[] columns = {myhelper.USERNAME,myhelper.PASSWORD,myhelper.EMAIL, myhelper.GENDER, myhelper.TITLE, myhelper.FIRST, myhelper.LAST, myhelper.STREET, myhelper.CITY, myhelper.STATE, myhelper.POSTCODE, myhelper.REGISTERED, myhelper.PICTURE,};
+        String[] columns = {myhelper.USERNAME,myhelper.PASSWORD,myhelper.EMAIL, myhelper.GENDER, myhelper.TITLE, myhelper.FIRST, myhelper.LAST, myhelper.STREET, myhelper.CITY, myhelper.STATE, myhelper.POSTCODE, myhelper.REGISTERED, myhelper.PICTURE};
         Cursor cursor = db.query(myhelper.TABLE_NAME, columns, null, null, null, null, null);
         StringBuffer buffer = new StringBuffer();
         while (cursor.moveToNext()) {
@@ -69,8 +69,8 @@ public class GestionDatos {
     }
 
     static class GestionDatosHelper extends SQLiteOpenHelper {
-        private static final String DATABASE_NAME = "RandomDB";    // Database Name
-        private static final String TABLE_NAME = "RandomTable";   // Table Name
+        private static final String DATABASE_NAME = "RandomUsers";    // Database Name
+        private static final String TABLE_NAME = "USUARIOS";   // Table Name
         private static final int DATABASE_Version = 1;    // Database Version
         private static final String USERNAME = "USERNAME";     // Column 1 (Primary Key)
         private static final String PASSWORD = "PASSWORD";     // Column 2
@@ -125,7 +125,7 @@ public class GestionDatos {
         public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
             try {
                 Log.i(TAG, "onUpgrade - INICIO");
-                //db.execSQL("DROP TABLE IF EXISTS " + TABLE_NAME);
+                db.execSQL("DROP TABLE IF EXISTS " + TABLE_NAME);
                 onCreate(db);
             } catch (Exception e) {
                 Log.e(TAG, "onCreate - ERROR: " + e.toString());
