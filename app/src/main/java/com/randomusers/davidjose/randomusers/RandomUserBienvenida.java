@@ -1,6 +1,7 @@
 package com.randomusers.davidjose.randomusers;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -29,6 +30,8 @@ public class RandomUserBienvenida extends AppCompatActivity {
         if(!helper.getData().contains("admin")){ //Si no contiene el usuario de apoyo entonces insertalo
             helper.insertData("admin", passCifrada);
         }
+
+        SharedPreferences sprefs;
 
         Thread reloj = new Thread(){
             public void run(){

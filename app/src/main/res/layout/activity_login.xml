@@ -54,7 +54,8 @@
                 android:layout_height="wrap_content"
                 android:hint="@string/activity_login_contrasenya"
                 android:textColor="@android:color/white"
-                android:textColorHint="@android:color/white" />
+                android:textColorHint="@android:color/white"
+                android:inputType="textPassword"/>
         </android.support.design.widget.TextInputLayout>
 
         <android.support.v7.widget.AppCompatButton
