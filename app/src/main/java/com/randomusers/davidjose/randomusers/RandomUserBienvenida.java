@@ -6,6 +6,8 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 
+import net.sqlcipher.database.*;
+
 import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 
@@ -27,6 +29,7 @@ public class RandomUserBienvenida extends AppCompatActivity {
         String adminPass = "admin";
         String passCifrada = sha256(adminPass);
         GestionDatosLogin helper = new GestionDatosLogin(this);
+        SQLiteDatabase.loadLibs(this);
         if(!helper.getData().contains("admin")){ //Si no contiene el usuario de apoyo entonces insertalo
             helper.insertData("admin", passCifrada);
         }

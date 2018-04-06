@@ -3,17 +3,15 @@ package com.randomusers.davidjose.randomusers;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.graphics.Color;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
+
+import net.sqlcipher.database.*;
 
 public class Login extends AppCompatActivity {
 
@@ -45,6 +43,7 @@ public class Login extends AppCompatActivity {
             passwordSinCifrar.setText(sprefs.getString(Contraseña, ""));
 
         login = (Button) findViewById(R.id.btn_login);
+        SQLiteDatabase.loadLibs(this);
         login.setOnClickListener(new View.OnClickListener() {
 
 

@@ -7,8 +7,7 @@ package com.randomusers.davidjose.randomusers;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
-import android.database.sqlite.SQLiteDatabase;
-import android.database.sqlite.SQLiteOpenHelper;
+import net.sqlcipher.database.*;
 import android.util.Log;
 
 public class GestionDatosLogin {
@@ -21,7 +20,7 @@ public class GestionDatosLogin {
 
     public long insertData(String username, String password) {
         Log.i(TAG, "insertData() - INICIO");
-        SQLiteDatabase dbb = myhelperLogin.getWritableDatabase();
+        SQLiteDatabase dbb = myhelperLogin.getWritableDatabase("parametro");
         ContentValues contentValues = new ContentValues();
         contentValues.put(GestionDatosLoginHelper.USERNAME, username);
         contentValues.put(GestionDatosLoginHelper.PASSWORD, password);
@@ -32,7 +31,7 @@ public class GestionDatosLogin {
 
     public String getData() {
         Log.i(TAG, "getData() - INICIO");
-        SQLiteDatabase db = myhelperLogin.getWritableDatabase();
+        SQLiteDatabase db = myhelperLogin.getWritableDatabase("parametro");
         String[] columns = {myhelperLogin.USERNAME,myhelperLogin.PASSWORD};
         Cursor cursor = db.query(myhelperLogin.TABLE_NAME, columns, null, null, null, null, null);
         StringBuffer buffer = new StringBuffer();
@@ -70,6 +69,7 @@ public class GestionDatosLogin {
         public void onCreate(SQLiteDatabase db) {
             try {
                 Log.i(TAG, "onCreate - INICIO");
+                SQLiteDatabase.loadLibs(context);
                 db.execSQL(CREATE_TABLE);
             } catch (Exception e) {
                 Log.e(TAG, "onCreate - ERROR: " + e.toString());
@@ -81,6 +81,7 @@ public class GestionDatosLogin {
         public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
             try {
                 Log.i(TAG, "onUpgrade - INICIO");
+                SQLiteDatabase.loadLibs(context);
                 db.execSQL("DROP TABLE IF EXISTS " + TABLE_NAME);
                 onCreate(db);
             } catch (Exception e) {

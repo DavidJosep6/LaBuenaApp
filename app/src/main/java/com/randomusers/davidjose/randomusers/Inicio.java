@@ -6,6 +6,9 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+
+import net.sqlcipher.database.*;
+
 /**
  * Funcionalidad: Primera pagina que redireccionara a generar nuevos usuarios (FORMULARIO) o a visualizar los usuarios (LISTA).
  */
@@ -41,6 +44,7 @@ public class Inicio extends AppCompatActivity {
         });
 
         GestionDatos helper = new GestionDatos(this);
+        SQLiteDatabase.loadLibs(this);
         if(!helper.getData().contains("username")){ //Si no contiene el usuario de apoyo entonces insertalo
             helper.insertData("username", "password", "email", "gender", "title", "first", "last", "street", "city", "state", "postcode", "registered", "https://www.limestone.edu/sites/default/files/user.png");
         }

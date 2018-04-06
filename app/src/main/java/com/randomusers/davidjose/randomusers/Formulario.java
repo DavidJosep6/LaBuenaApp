@@ -12,6 +12,8 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import net.sqlcipher.database.*;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -68,6 +70,7 @@ public class Formulario extends AppCompatActivity {
 
 
         helper = new GestionDatos(this);
+        SQLiteDatabase.loadLibs(this);
         enviarFormulario.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

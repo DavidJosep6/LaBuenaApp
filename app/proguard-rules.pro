@@ -19,3 +19,14 @@
 # If you keep the line number information, uncomment this to
 # hide the original source file name.
 #-renamesourcefileattribute SourceFile
+#-keep public class CustomListAdapter
+#-keep public class CustomListAdapterHorizontal
+#-keep public class Formulario
+#-keep public class GestionDatos
+#-keep public class GestionDatosLogin
+#-keep public class Inicio
+#-keep public class ListaVertical
+#-keep public class Login
+#-keep public class RandomUserBienvenida
+
+

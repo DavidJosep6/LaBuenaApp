@@ -7,8 +7,7 @@ package com.randomusers.davidjose.randomusers;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
-import android.database.sqlite.SQLiteDatabase;
-import android.database.sqlite.SQLiteOpenHelper;
+import net.sqlcipher.database.*;
 import android.util.Log;
 
 public class GestionDatos {
@@ -21,7 +20,7 @@ public class GestionDatos {
 
     public long insertData(String username, String password, String email, String gender, String title, String first, String last, String street, String city, String state, String postcode, String registered, String picture) {
         Log.i(TAG, "insertData() - INICIO");
-        SQLiteDatabase dbb = myhelper.getWritableDatabase();
+        SQLiteDatabase dbb = myhelper.getWritableDatabase("parametro");
         ContentValues contentValues = new ContentValues();
         contentValues.put(GestionDatosHelper.USERNAME, username);
         contentValues.put(GestionDatosHelper.PASSWORD, password);
@@ -43,7 +42,7 @@ public class GestionDatos {
 
     public String getData() {
         Log.i(TAG, "getData() - INICIO");
-        SQLiteDatabase db = myhelper.getWritableDatabase();
+        SQLiteDatabase db = myhelper.getWritableDatabase("parametro");
         String[] columns = {myhelper.USERNAME,myhelper.PASSWORD,myhelper.EMAIL, myhelper.GENDER, myhelper.TITLE, myhelper.FIRST, myhelper.LAST, myhelper.STREET, myhelper.CITY, myhelper.STATE, myhelper.POSTCODE, myhelper.REGISTERED, myhelper.PICTURE};
         Cursor cursor = db.query(myhelper.TABLE_NAME, columns, null, null, null, null, null);
         StringBuffer buffer = new StringBuffer();
@@ -114,6 +113,7 @@ public class GestionDatos {
         public void onCreate(SQLiteDatabase db) {
             try {
                 Log.i(TAG, "onCreate - INICIO");
+                SQLiteDatabase.loadLibs(context);
                 db.execSQL(CREATE_TABLE);
             } catch (Exception e) {
                 Log.e(TAG, "onCreate - ERROR: " + e.toString());
@@ -125,6 +125,7 @@ public class GestionDatos {
         public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
             try {
                 Log.i(TAG, "onUpgrade - INICIO");
+                SQLiteDatabase.loadLibs(context);
                 db.execSQL("DROP TABLE IF EXISTS " + TABLE_NAME);
                 onCreate(db);
             } catch (Exception e) {
