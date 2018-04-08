@@ -8,11 +8,13 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import net.sqlcipher.database.*;
+
 import android.util.Log;
 
 public class GestionDatosLogin {
     private static final String TAG = "GestionDatosLogin.java";
     GestionDatosLoginHelper myhelperLogin;
+
 
     public GestionDatosLogin(Context context) {
         myhelperLogin = new GestionDatosLoginHelper(context);
@@ -20,18 +22,19 @@ public class GestionDatosLogin {
 
     public long insertData(String username, String password) {
         Log.i(TAG, "insertData() - INICIO");
-        SQLiteDatabase dbb = myhelperLogin.getWritableDatabase("parametro");
+        SQLiteDatabase dbb = myhelperLogin.getWritableDatabase(Login.desencriptadoBD);
         ContentValues contentValues = new ContentValues();
         contentValues.put(GestionDatosLoginHelper.USERNAME, username);
         contentValues.put(GestionDatosLoginHelper.PASSWORD, password);
         long id = dbb.insert(GestionDatosLoginHelper.TABLE_NAME, null, contentValues);
         Log.i(TAG, "insertData() - FIN");
+        dbb.close();
         return id;
     }
 
     public String getData() {
         Log.i(TAG, "getData() - INICIO");
-        SQLiteDatabase db = myhelperLogin.getWritableDatabase("parametro");
+        SQLiteDatabase db = myhelperLogin.getWritableDatabase(Login.desencriptadoBD);
         String[] columns = {myhelperLogin.USERNAME,myhelperLogin.PASSWORD};
         Cursor cursor = db.query(myhelperLogin.TABLE_NAME, columns, null, null, null, null, null);
         StringBuffer buffer = new StringBuffer();
@@ -42,6 +45,8 @@ public class GestionDatosLogin {
         }
         Log.i(TAG, "getData() - Datos de la BBDD: " + buffer.toString());
         Log.i(TAG, "getData() - FIN");
+        cursor.close();
+        db.close();
         return buffer.toString();
     }
 
@@ -61,9 +66,10 @@ public class GestionDatosLogin {
 
         public GestionDatosLoginHelper(Context context) {
             super(context, DATABASE_NAME, null, DATABASE_Version);
-            Log.i(TAG, "GestionDatosLoginHelperHelper - INICIO");
+            Log.i(TAG, "GestionDatosLoginHelper - INICIO");
             this.context = context;
-            Log.i(TAG, "GestionDatosLoginHelperHelper - FIN");
+
+            Log.i(TAG, "GestionDatosLoginHelper - FIN");
         }
 
         public void onCreate(SQLiteDatabase db) {

@@ -20,7 +20,7 @@ public class GestionDatos {
 
     public long insertData(String username, String password, String email, String gender, String title, String first, String last, String street, String city, String state, String postcode, String registered, String picture) {
         Log.i(TAG, "insertData() - INICIO");
-        SQLiteDatabase dbb = myhelper.getWritableDatabase("parametro");
+        SQLiteDatabase dbb = myhelper.getWritableDatabase(Login.desencriptadoBD);
         ContentValues contentValues = new ContentValues();
         contentValues.put(GestionDatosHelper.USERNAME, username);
         contentValues.put(GestionDatosHelper.PASSWORD, password);
@@ -37,12 +37,14 @@ public class GestionDatos {
         contentValues.put(GestionDatosHelper.PICTURE, picture);
         long id = dbb.insert(GestionDatosHelper.TABLE_NAME, null, contentValues);
         Log.i(TAG, "insertData() - FIN");
+        dbb.close();
         return id;
     }
 
     public String getData() {
         Log.i(TAG, "getData() - INICIO");
-        SQLiteDatabase db = myhelper.getWritableDatabase("parametro");
+        Log.i(TAG, "Login.desencriptadoBD: " + Login.desencriptadoBD);
+        SQLiteDatabase db = myhelper.getWritableDatabase(Login.desencriptadoBD);
         String[] columns = {myhelper.USERNAME,myhelper.PASSWORD,myhelper.EMAIL, myhelper.GENDER, myhelper.TITLE, myhelper.FIRST, myhelper.LAST, myhelper.STREET, myhelper.CITY, myhelper.STATE, myhelper.POSTCODE, myhelper.REGISTERED, myhelper.PICTURE};
         Cursor cursor = db.query(myhelper.TABLE_NAME, columns, null, null, null, null, null);
         StringBuffer buffer = new StringBuffer();
@@ -64,6 +66,8 @@ public class GestionDatos {
         }
         Log.i(TAG, "getData() - Datos de la BBDD: " + buffer.toString());
         Log.i(TAG, "getData() - FIN");
+        cursor.close();
+        db.close();
         return buffer.toString();
     }
 

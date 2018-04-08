@@ -13,10 +13,13 @@ import android.widget.Toast;
 
 import net.sqlcipher.database.*;
 
+import javax.crypto.SecretKey;
 public class Login extends AppCompatActivity {
 
     private static final String TAG = "Login.java";
-
+    public static String aleatorioBD;
+    public static String encriptadoBD;
+    public static String desencriptadoBD = "";
     EditText usuario, passwordSinCifrar;
     Button login;
 
@@ -25,8 +28,9 @@ public class Login extends AppCompatActivity {
     public static final String MisPreferencias = "MyPrefs";
     public static final String Nombre = "key_Nombre";
     public static final String Contraseña = "Key_passw";
-    SharedPreferences sprefs;
+    public static final String BBDDEncriptado = "Key_BBDD";
 
+    SharedPreferences sprefs;
 
     @Override
     protected void onCreate(Bundle objShaPrefs) {
@@ -79,7 +83,21 @@ public class Login extends AppCompatActivity {
                         SharedPreferences.Editor editor = sprefs.edit();
                         editor.putString(Nombre,n);
                         editor.putString(Contraseña,cs);
+                        //Si no contiene el cifrado de la BBDD lo genera y lo almacena, si lo tiene no hace nada pues las variables ya tienen el valor
+                        if (!sprefs.contains(BBDDEncriptado)){
+                            aleatorioBD = Crypto.deriveKeyPbkdf2(Crypto.generateSalt(), cs).getEncoded().toString();
+                            encriptadoBD = encrypt(aleatorioBD, cs);
+                            editor.putString(BBDDEncriptado,encriptadoBD);
+                        }
                         editor.commit();
+                        sprefs = getSharedPreferences(MisPreferencias, Context.MODE_PRIVATE);
+                        Log.d(TAG,"aleatorioBD: " + aleatorioBD);
+                        Log.d(TAG,"encriptadoBD: " + encriptadoBD);
+                        if (sprefs.contains(BBDDEncriptado)){
+                            desencriptadoBD = decrypt(sprefs.getString(BBDDEncriptado, ""),cs);
+                            Log.d(TAG,"desencriptadoBD: " + desencriptadoBD);
+                        }
+
 
                         Intent abrirInicio = new Intent("com.randomusers.davidjose.randomusers.INICIO");
                         startActivity(abrirInicio);
@@ -97,4 +115,34 @@ public class Login extends AppCompatActivity {
         });
         Log.i(TAG, "onCreate() - FIN");
     }
+
+
+        SecretKey key;
+
+        String getRawKey() {
+            if (key == null) {
+                return null;
+            }
+
+            return Crypto.toHex(key.getEncoded());
+        }
+
+
+        public SecretKey deriveKey(String password, byte[] salt) {
+            return Crypto.deriveKeyPbkdf2(salt, password);
+        }
+
+        public String encrypt(String plaintext, String password) {
+            byte[] salt = Crypto.generateSalt();
+            key = deriveKey(password, salt);
+            Log.d(TAG, "Generated key: " + getRawKey());
+
+            return Crypto.encrypt(plaintext, key, salt);
+        }
+
+        public String decrypt(String ciphertext, String password) {
+            return Crypto.decryptPbkdf2(ciphertext, password);
+        }
+
+
 }

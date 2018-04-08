@@ -26,7 +26,7 @@ public class RandomUserBienvenida extends AppCompatActivity {
         setContentView(R.layout.activity_random_user_bienvenida);
 
         //Introducimos en BBDD el usuario admin y su contrasenya cifrada
-        String adminPass = "admin";
+        String adminPass = "admin123";
         String passCifrada = sha256(adminPass);
         GestionDatosLogin helper = new GestionDatosLogin(this);
         SQLiteDatabase.loadLibs(this);
