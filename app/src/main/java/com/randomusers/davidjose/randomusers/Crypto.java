@@ -1,15 +1,25 @@
 package com.randomusers.davidjose.randomusers;
 
 import java.io.UnsupportedEncodingException;
+import java.math.BigInteger;
 import java.security.GeneralSecurityException;
+import java.security.KeyPairGenerator;
+import java.security.KeyStore;
+import java.security.PrivateKey;
 import java.security.SecureRandom;
 import java.security.spec.KeySpec;
+import java.util.Calendar;
+
 import javax.crypto.Cipher;
 import javax.crypto.SecretKey;
 import javax.crypto.SecretKeyFactory;
 import javax.crypto.spec.IvParameterSpec;
 import javax.crypto.spec.PBEKeySpec;
 import javax.crypto.spec.SecretKeySpec;
+import javax.security.auth.x500.X500Principal;
+
+import android.content.Context;
+import android.security.KeyPairGeneratorSpec;
 import android.util.Base64;
 import android.util.Log;
 
