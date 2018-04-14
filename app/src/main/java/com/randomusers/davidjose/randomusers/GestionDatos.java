@@ -10,17 +10,17 @@ import android.database.Cursor;
 import net.sqlcipher.database.*;
 import android.util.Log;
 
+import java.security.PublicKey;
+
 public class GestionDatos {
     private static final String TAG = "GestionDatos.java";
     GestionDatosHelper myhelper;
-
-    public GestionDatos(Context context) {
-        myhelper = new GestionDatosHelper(context);
-    }
+    private static String claveBD = RandomUserBienvenida.clavePublica;
+    public GestionDatos(Context context) { myhelper = new GestionDatosHelper(context); }
 
     public long insertData(String username, String password, String email, String gender, String title, String first, String last, String street, String city, String state, String postcode, String registered, String picture) {
-        Log.i(TAG, "insertData() - INICIO");
-        SQLiteDatabase dbb = myhelper.getWritableDatabase(Login.desencriptadoBD);
+        Log.i(TAG, "insertData() - INICIO: claveBD" + claveBD);
+        SQLiteDatabase dbb = myhelper.getWritableDatabase(claveBD);
         ContentValues contentValues = new ContentValues();
         contentValues.put(GestionDatosHelper.USERNAME, username);
         contentValues.put(GestionDatosHelper.PASSWORD, password);
@@ -42,9 +42,8 @@ public class GestionDatos {
     }
 
     public String getData() {
-        Log.i(TAG, "getData() - INICIO");
-        Log.i(TAG, "Login.desencriptadoBD: " + Login.desencriptadoBD);
-        SQLiteDatabase db = myhelper.getWritableDatabase(Login.desencriptadoBD);
+        Log.i(TAG, "getData() - INICIO: claveBD" + claveBD);
+        SQLiteDatabase db = myhelper.getWritableDatabase(claveBD);
         String[] columns = {myhelper.USERNAME,myhelper.PASSWORD,myhelper.EMAIL, myhelper.GENDER, myhelper.TITLE, myhelper.FIRST, myhelper.LAST, myhelper.STREET, myhelper.CITY, myhelper.STATE, myhelper.POSTCODE, myhelper.REGISTERED, myhelper.PICTURE};
         Cursor cursor = db.query(myhelper.TABLE_NAME, columns, null, null, null, null, null);
         StringBuffer buffer = new StringBuffer();

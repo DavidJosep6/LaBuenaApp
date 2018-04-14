@@ -11,18 +11,19 @@ import net.sqlcipher.database.*;
 
 import android.util.Log;
 
+import java.security.PublicKey;
+
 public class GestionDatosLogin {
     private static final String TAG = "GestionDatosLogin.java";
     GestionDatosLoginHelper myhelperLogin;
-
-
+    private static String claveBD = RandomUserBienvenida.clavePublica;
     public GestionDatosLogin(Context context) {
         myhelperLogin = new GestionDatosLoginHelper(context);
     }
 
     public long insertData(String username, String password) {
-        Log.i(TAG, "insertData() - INICIO");
-        SQLiteDatabase dbb = myhelperLogin.getWritableDatabase(Login.desencriptadoBD);
+        Log.i(TAG, "insertData() - INICIO: claveBD" + claveBD);
+        SQLiteDatabase dbb = myhelperLogin.getWritableDatabase(claveBD);
         ContentValues contentValues = new ContentValues();
         contentValues.put(GestionDatosLoginHelper.USERNAME, username);
         contentValues.put(GestionDatosLoginHelper.PASSWORD, password);
@@ -33,8 +34,8 @@ public class GestionDatosLogin {
     }
 
     public String getData() {
-        Log.i(TAG, "getData() - INICIO");
-        SQLiteDatabase db = myhelperLogin.getWritableDatabase(Login.desencriptadoBD);
+        Log.i(TAG, "getData() - INICIO: claveBD" + claveBD);
+        SQLiteDatabase db = myhelperLogin.getWritableDatabase(claveBD);
         String[] columns = {myhelperLogin.USERNAME,myhelperLogin.PASSWORD};
         Cursor cursor = db.query(myhelperLogin.TABLE_NAME, columns, null, null, null, null, null);
         StringBuffer buffer = new StringBuffer();
@@ -96,6 +97,4 @@ public class GestionDatosLogin {
             Log.i(TAG, "onUpgrade - FIN");
         }
     }
-
-
 }
