@@ -30,3 +30,6 @@
 #-keep public class RandomUserBienvenida
 
 
+-keep class net.sqlcipher.** {
+    *;
+}

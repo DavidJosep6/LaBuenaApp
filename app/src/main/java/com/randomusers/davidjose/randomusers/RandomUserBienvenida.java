@@ -163,7 +163,6 @@ public class RandomUserBienvenida extends AppCompatActivity {
             Certificate cert = keyStore.getCertificate(alias);
             // Get public key
             PublicKey publicKey = cert.getPublicKey();
-            Log.i(TAG,"loadPublicKey(): " + publicKey.getEncoded().toString());
             Log.i(TAG, "loadPublicKey() - FIN");
             return publicKey;
         }

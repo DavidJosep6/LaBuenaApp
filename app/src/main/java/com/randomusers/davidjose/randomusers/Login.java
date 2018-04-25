@@ -39,7 +39,6 @@ public class Login extends AppCompatActivity {
     public static final String Contraseña = "Key_passw";
 
     SharedPreferences sprefs;
-    public static final String KEY_ALIAS = "AndroidKeyStoreAlias";
 
     @Override
     protected void onCreate(Bundle objShaPrefs) {
